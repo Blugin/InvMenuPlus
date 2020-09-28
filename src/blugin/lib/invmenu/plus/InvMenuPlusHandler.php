@@ -27,26 +27,23 @@ declare(strict_types=1);
 
 namespace blugin\lib\invmenu\plus;
 
+use muqsit\invmenu\InvMenuEventHandler;
 use muqsit\invmenu\InvMenuHandler;
+use muqsit\invmenu\session\PlayerManager;
 use pocketmine\plugin\Plugin;
-use pocketmine\Server;
 
 class InvMenuPlusHandler{
-    /** @var bool */
-    private static $registered = false;
-
-    public static function isRegistered() : bool{
-        return self::$registered;
-    }
-
     public static function register(Plugin $plugin) : void{
-        if(self::isRegistered())
-            return;
-
         if(!InvMenuHandler::isRegistered()){
             InvMenuHandler::register($plugin);
+        }else{
+            $plugin->getServer()->getPluginManager()->registerEvents(new InvMenuEventHandler(), $plugin);
         }
 
-        Server::getInstance()->getPluginManager()->registerEvents(InvMenuPlusEventHandler::getInstance(), $plugin);
+        foreach($plugin->getServer()->getOnlinePlayers() as $player){
+            PlayerManager::destroy($player);
+            PlayerManager::create($player);
+        }
+        $plugin->getServer()->getPluginManager()->registerEvents(InvMenuPlusEventHandler::getInstance(), $plugin);
     }
 }
