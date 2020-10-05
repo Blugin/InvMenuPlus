@@ -37,7 +37,7 @@ class InvMenuPlusHandler{
         if(!InvMenuHandler::isRegistered()){
             InvMenuHandler::register($plugin);
         }else{
-            $plugin->getServer()->getPluginManager()->registerEvents(new InvMenuEventHandler(), $plugin);
+            $plugin->getServer()->getPluginManager()->registerEvents(new InvMenuEventHandler($plugin), $plugin);
         }
 
         foreach($plugin->getServer()->getOnlinePlayers() as $player){
