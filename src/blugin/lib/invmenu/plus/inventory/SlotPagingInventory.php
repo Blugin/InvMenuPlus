@@ -31,10 +31,9 @@ use muqsit\invmenu\metadata\MenuMetadata;
 
 class SlotPagingInventory extends SlotBasedInventory{
     /** @var SlotBasedItemArray[] */
-    protected $pages = [];
+    protected array $pages = [];
 
-    /** @var int */
-    protected $pageNumber;
+    protected int $pageNumber;
 
     public function __construct(MenuMetadata $menu_metadata){
         parent::__construct($menu_metadata);
@@ -83,7 +82,7 @@ class SlotPagingInventory extends SlotBasedInventory{
             return;
 
         if(!isset($this->pages[$pageNumber]))
-            throw new \InvalidKeyException("$pageNumber is invalid page number");
+            throw new \InvalidArgumentException("$pageNumber is invalid page number");
 
         $this->pageNumber = $pageNumber;
         $this->slots = $this->pages[$pageNumber];

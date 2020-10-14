@@ -35,11 +35,9 @@ use pocketmine\item\Item;
 use pocketmine\item\ItemFactory;
 
 class SyncSlot implements ISlot{
-    /** @var BaseInventory */
-    protected $inventory;
+    protected BaseInventory $inventory;
 
-    /** @var int */
-    protected $slot;
+    protected int $slot;
 
     public function __construct(BaseInventory $inventory, int $slot){
         $this->inventory = $inventory;

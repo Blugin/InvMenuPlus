@@ -32,8 +32,7 @@ use muqsit\invmenu\transaction\InvMenuTransactionResult;
 use pocketmine\item\Item;
 
 class ClosureSlot extends NormalItemSlot{
-    /** @var \Closure */
-    protected $closure;
+    protected \Closure $closure;
 
     public function __construct(Item $item, \Closure $closure){
         parent::__construct($item);

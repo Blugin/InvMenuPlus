@@ -33,8 +33,7 @@ use muqsit\invmenu\transaction\InvMenuTransactionResult;
 use pocketmine\item\Item;
 
 class SwitcingPageSlot extends ImmutableSlot{
-    /** @var int */
-    protected $pageNumber;
+    protected int $pageNumber;
 
     public function __construct(Item $item, int $page){
         parent::__construct($item);

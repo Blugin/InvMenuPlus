@@ -36,26 +36,19 @@ use pocketmine\item\Item;
 use pocketmine\Player;
 
 class SlotTransactionEvent{
-    /** @var InvMenuTransaction */
-    protected $transaction;
+    protected InvMenuTransaction $transaction;
 
-    /** @var Player */
-    protected $player;
+    protected Player $player;
 
-    /** @var SlotChangeAction */
-    protected $action;
+    protected SlotChangeAction $action;
 
-    /** @var SlotBasedInventory */
-    protected $inventory;
+    protected SlotBasedInventory $inventory;
 
-    /** @var InvMenu */
-    protected $menu;
+    protected InvMenu $menu;
 
-    /** @var int */
-    private $windowId;
+    private ?int $windowId;
 
-    /** @var \Closure|null */
-    private $closeListener = null;
+    private ?\Closure $closeListener = null;
 
     public function __construct(InvMenuTransaction $transaction, SlotBasedInventory $inventory, InvMenu $menu){
         $this->transaction = $transaction;
@@ -99,7 +92,7 @@ class SlotTransactionEvent{
         return $this->action->getTargetItem();
     }
 
-    public function getWindowId() : int{
+    public function getWindowId() : ?int{
         return $this->windowId;
     }
 

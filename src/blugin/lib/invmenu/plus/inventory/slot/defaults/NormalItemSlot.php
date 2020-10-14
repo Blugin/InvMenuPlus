@@ -34,8 +34,7 @@ use pocketmine\item\Item;
 use pocketmine\item\ItemFactory;
 
 class NormalItemSlot implements ISlot{
-    /** @var Item */
-    protected $item;
+    protected Item $item;
 
     public function __construct(Item $item){
         $this->item = $item;

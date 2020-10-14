@@ -38,8 +38,7 @@ use muqsit\invmenu\transaction\InvMenuTransactionResult;
 use pocketmine\network\mcpe\protocol\types\ContainerIds;
 
 class SlotBasedInventory extends InvMenuInventory{
-    /** @var InvMenu|null */
-    protected $bindedMenu = null;
+    protected ?InvMenu $bindedMenu = null;
 
     public function __construct(MenuMetadata $menu_metadata){
         parent::__construct($menu_metadata);

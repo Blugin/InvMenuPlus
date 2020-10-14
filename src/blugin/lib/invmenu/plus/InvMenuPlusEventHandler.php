@@ -37,11 +37,10 @@ use pocketmine\network\mcpe\protocol\ContainerClosePacket;
 class InvMenuPlusEventHandler implements Listener{
     use SingletonTrait;
 
-    /** @var bool */
-    private $cancel = true;
+    private bool $cancel = true;
 
     /** @var SlotTransactionEvent[] */
-    private $pendingEvents = [];
+    private array $pendingEvents = [];
 
     public function pending(SlotTransactionEvent $event) : void{
         if($event->getCloseListener() !== null){

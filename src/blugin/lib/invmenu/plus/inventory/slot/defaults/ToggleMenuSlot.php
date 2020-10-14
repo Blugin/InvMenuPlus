@@ -34,7 +34,7 @@ use pocketmine\item\Item;
 use pocketmine\Player;
 
 class ToggleMenuSlot extends ImmutableSlot{
-    protected $menu;
+    protected InvMenu $menu;
 
     public function __construct(Item $item, InvMenu $menu){
         parent::__construct($item);
