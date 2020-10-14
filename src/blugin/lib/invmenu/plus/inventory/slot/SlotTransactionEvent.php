@@ -33,7 +33,7 @@ use muqsit\invmenu\transaction\InvMenuTransaction;
 use muqsit\invmenu\transaction\InvMenuTransactionResult;
 use pocketmine\inventory\transaction\action\SlotChangeAction;
 use pocketmine\item\Item;
-use pocketmine\Player;
+use pocketmine\player\Player;
 
 class SlotTransactionEvent{
     protected InvMenuTransaction $transaction;
@@ -57,7 +57,7 @@ class SlotTransactionEvent{
         $this->inventory = $inventory;
         $this->menu = $menu;
 
-        $this->windowId = $this->player->getWindowId($inventory);
+        $this->windowId = $this->player->getNetworkSession()->getInvManager()->getWindowId($inventory);
     }
 
     public function getTransaction() : InvMenuTransaction{

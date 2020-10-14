@@ -35,13 +35,13 @@ use muqsit\invmenu\InvMenu;
 use muqsit\invmenu\metadata\MenuMetadata;
 use muqsit\invmenu\transaction\InvMenuTransaction;
 use muqsit\invmenu\transaction\InvMenuTransactionResult;
-use pocketmine\network\mcpe\protocol\types\ContainerIds;
+use pocketmine\network\mcpe\protocol\types\inventory\ContainerIds;
 
 class SlotBasedInventory extends InvMenuInventory{
     protected ?InvMenu $bindedMenu = null;
 
     public function __construct(MenuMetadata $menu_metadata){
-        parent::__construct($menu_metadata);
+        parent::__construct($this->getSize());
         $this->slots = new SlotBasedItemArray($this->getSize());
     }
 
@@ -72,9 +72,10 @@ class SlotBasedInventory extends InvMenuInventory{
             $slot = $this->getSlot($event->getSlot());
             if($slot !== null){
                 $player = $event->getPlayer();
+                $invManager = $player->getNetworkSession()->getInvManager();
 
                 $result = $slot->handleTransaction($event);
-                if($player->getWindowId($this) === ContainerIds::NONE){
+                if($invManager->getWindowId($this) === ContainerIds::NONE){
                     $callback = $result->getPostTransactionCallback();
                     if($callback !== null){
                         $result->then(null);
@@ -84,7 +85,7 @@ class SlotBasedInventory extends InvMenuInventory{
                 InvMenuPlusEventHandler::getInstance()->pending($event);
 
                 if($result->isCancelled()){
-                    $player->getCursorInventory()->sendSlot(0, $player);
+                    $invManager->syncSlot($player->getCursorInventory(), 0);
                 }
                 return $result;
             }

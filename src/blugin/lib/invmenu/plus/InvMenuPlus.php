@@ -30,18 +30,26 @@ namespace blugin\lib\invmenu\plus;
 use muqsit\invmenu\inventory\InvMenuInventory;
 use muqsit\invmenu\InvMenu;
 use muqsit\invmenu\InvMenuHandler;
+use muqsit\invmenu\metadata\MenuMetadata;
+use pocketmine\inventory\Inventory;
 
 class InvMenuPlus extends InvMenu{
     /** @return InvMenuPlus */
-    public static function create(string $identifier, ?string $inventoryClass = null) : InvMenu{
-        $menu = new InvMenuPlus($type = InvMenuHandler::getMenuType($identifier));
-        if($inventoryClass !== null && is_a($inventoryClass, InvMenuInventory::class, true)){
-            $menu->setInventory(new $inventoryClass($type));
-        }
-        return $menu;
+    public static function create(string $identifier, ...$args) : InvMenu{
+        return new InvMenuPlus($type = InvMenuHandler::getMenuType($identifier), ...$args);
     }
 
-    public function setInventory(InvMenuInventory $inventory) : void{
-        $this->inventory = $inventory;
+    public function __construct(MenuMetadata $type, ?string $inventoryClass = null, ?Inventory $custom_inventory = null){
+        if(!InvMenuHandler::isRegistered()){
+            throw new \InvalidStateException("Tried creating menu before calling " . InvMenuHandler::class . "::register()");
+        }
+
+        $this->type = $type;
+        if($inventoryClass !== null && is_a($inventoryClass, InvMenuInventory::class, true)){
+            $this->inventory = new $inventoryClass($type);
+        }else{
+            $this->inventory = $this->type->createInventory();
+        }
+        $this->setInventory($custom_inventory);
     }
 }

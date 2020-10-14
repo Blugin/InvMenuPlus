@@ -53,7 +53,7 @@ class SyncSlot implements ISlot{
     }
 
     public function setItem(?Item $item) : void{
-        $this->inventory->setItem($this->slot, $item ?? ItemFactory::get(Item::AIR, 0, 0));
+        $this->inventory->setItem($this->slot, $item ?? ItemFactory::air());
     }
 
     public function getInventory() : BaseInventory{

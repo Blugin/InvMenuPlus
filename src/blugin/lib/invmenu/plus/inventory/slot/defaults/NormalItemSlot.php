@@ -49,6 +49,6 @@ class NormalItemSlot implements ISlot{
     }
 
     public function setItem(?Item $item) : void{
-        $this->item = $item ?? ItemFactory::get(Item::AIR, 0, 0);
+        $this->item = $item ?? ItemFactory::air();
     }
 }

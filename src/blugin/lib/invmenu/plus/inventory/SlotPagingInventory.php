@@ -86,6 +86,8 @@ class SlotPagingInventory extends SlotBasedInventory{
 
         $this->pageNumber = $pageNumber;
         $this->slots = $this->pages[$pageNumber];
-        $this->sendContents($this->getViewers());
+        foreach($this->getViewers() as $viewer){
+            $viewer->getNetworkSession()->getInvManager()->syncContents($this);
+        }
     }
 }

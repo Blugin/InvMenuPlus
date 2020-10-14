@@ -31,7 +31,7 @@ use blugin\lib\invmenu\plus\inventory\slot\SlotTransactionEvent;
 use muqsit\invmenu\InvMenu;
 use muqsit\invmenu\transaction\InvMenuTransactionResult;
 use pocketmine\item\Item;
-use pocketmine\Player;
+use pocketmine\player\Player;
 
 class ToggleMenuSlot extends ImmutableSlot{
     protected InvMenu $menu;
@@ -42,7 +42,7 @@ class ToggleMenuSlot extends ImmutableSlot{
     }
 
     public function handleTransaction(SlotTransactionEvent $event) : InvMenuTransactionResult{
-        $event->getPlayer()->removeWindow($event->getInventory());
+        $event->getPlayer()->removeCurrentWindow();
         return $event->discard()->then(function(Player $player) : void{
             $this->getMenu()->send($player);
         });

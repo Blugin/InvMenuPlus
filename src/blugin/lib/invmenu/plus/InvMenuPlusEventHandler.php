@@ -59,8 +59,12 @@ class InvMenuPlusEventHandler implements Listener{
 
     /** @priority HIGHEST */
     public function onDataPacketSendEvent(DataPacketSendEvent $event) : void{
-        if($this->cancel && $event->getPacket() instanceof ContainerClosePacket){
-            $event->setCancelled();
+        if($this->cancel){
+            foreach($event->getPackets() as $packet){
+                if($packet instanceof ContainerClosePacket){
+                    $event->cancel();
+                }
+            }
         }
     }
 
@@ -71,15 +75,15 @@ class InvMenuPlusEventHandler implements Listener{
     public function onDataPacketReceiveEvent(DataPacketReceiveEvent $event) : void{
         $packet = $event->getPacket();
         if($packet instanceof ContainerClosePacket){
-            $player = $event->getPlayer();
+            $session = $event->getOrigin();
 
             $this->cancel = false;
-            $player->sendDataPacket($packet);
+            $session->sendDataPacket($packet);
             $this->cancel = true;
 
             foreach($this->pendingEvents as $pendingEvent){
-                if($pendingEvent->getPlayer() === $player && $pendingEvent->getWindowId() === $packet->windowId){
-                    $pendingEvent->getCloseListener()($player);
+                if($pendingEvent->getPlayer() === $session && $pendingEvent->getWindowId() === $packet->windowId){
+                    $pendingEvent->getCloseListener()($session->getPlayer());
                     $this->removePending($pendingEvent);
                     break;
                 }
