@@ -37,9 +37,6 @@ use pocketmine\network\mcpe\protocol\ContainerClosePacket;
 class InvMenuPlusEventHandler implements Listener{
     use SingletonTrait;
 
-    /** @var bool */
-    private $cancel = true;
-
     /** @var SlotTransactionEvent[] */
     private $pendingEvents = [];
 
@@ -58,13 +55,6 @@ class InvMenuPlusEventHandler implements Listener{
         }
     }
 
-    /** @priority HIGHEST */
-    public function onDataPacketSendEvent(DataPacketSendEvent $event) : void{
-        if($this->cancel && $event->getPacket() instanceof ContainerClosePacket){
-            $event->setCancelled();
-        }
-    }
-
     /**
      * @priority HIGHEST
      * @ignoreCancelled
@@ -73,10 +63,6 @@ class InvMenuPlusEventHandler implements Listener{
         $packet = $event->getPacket();
         if($packet instanceof ContainerClosePacket){
             $player = $event->getPlayer();
-
-            $this->cancel = false;
-            $player->sendDataPacket($packet);
-            $this->cancel = true;
 
             foreach($this->pendingEvents as $pendingEvent){
                 if($pendingEvent->getPlayer() === $player && $pendingEvent->getWindowId() === $packet->windowId){
