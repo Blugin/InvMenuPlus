@@ -28,11 +28,10 @@ declare(strict_types=1);
 namespace blugin\lib\invmenu\plus;
 
 use blugin\lib\invmenu\plus\inventory\slot\SlotTransactionEvent;
-use kim\present\traits\singleton\SingletonTrait;
 use pocketmine\event\Listener;
 use pocketmine\event\server\DataPacketReceiveEvent;
-use pocketmine\event\server\DataPacketSendEvent;
 use pocketmine\network\mcpe\protocol\ContainerClosePacket;
+use pocketmine\utils\SingletonTrait;
 
 class InvMenuPlusEventHandler implements Listener{
     use SingletonTrait;

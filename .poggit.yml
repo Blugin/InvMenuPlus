@@ -7,7 +7,4 @@ projects:
     type: library
     lint:
       phpstan: false
-    libs:
-      - src: PresentKim/singleton-trait/singleton-trait
-        version: ^2.0.0
 ...
